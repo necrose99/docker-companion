@@ -5,8 +5,7 @@ REVISION := $(shell git rev-parse --short HEAD || echo unknown)
 VERSION := $(shell git describe --tags || cat main.go | grep -o 'VERSION = "[^"]*"' | awk '{ print $3 }' | sed 's:"::g' || echo dev)
 VERSION := $(shell echo $(VERSION) | sed -e 's/^v//g')
 ITTERATION := $(shell date +%s)
-BUILD_PLATFORMS ?= -osarch="linux/amd64" -osarch="linux/386" -osarch="linux/arm"
-
+BUILD_PLATFORMS ?= -osarch="linux/amd64" -osarch="linux/386" -osarch="linux/arm" -osarch="linux/arm64"
 all: deps build
 
 help:
@@ -50,4 +49,4 @@ test:
 	go test -cover
 
 build-and-deploy:
-	make build BUILD_PLATFORMS="-os=linux -arch=amd64"
+	make build BUILD_PLATFORMS="-os=linux -arch=amd64" -arch=arm64"
